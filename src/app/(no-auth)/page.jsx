@@ -127,6 +127,8 @@ export default function Home() {
   const [calcValue, setCalcValue] = useState('NO DATA')
   const [selectValue, setSelectValue] = useState({})
   const [code, setCode] = useState('')
+  const [naviera, setNaviera] = useState('')
+
 
   const router = useRouter()
   const AutoplaySlider = withAutoplay(AwesomeSlider);
@@ -342,7 +344,7 @@ export default function Home() {
     e.preventDefault()
     console.log(inputRef.current.value)
     console.log(inputRef2.current.value)
-    let val = Object.values(cliente.priceFCL).find((i) => {
+    let val = Object.values(cliente.priceFCL).filter((i) => {
       return i.ORIGEN === inputRef.current.value && i.DESTINO === inputRef2.current.value
     })
     val !== undefined ? setCalcValueFCL(val) : setUserSuccess('NO DATA')
@@ -488,21 +490,49 @@ export default function Home() {
                     <button type="submit" className="w-full text-white bg-green-500 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={HandlerCheckOut}>Solicitar Servicio</button>
                   </div>
                 </div>
+              }   {calcValueFCL !== 'NO DATA' &&
+                calcValueFCL.map((i) => i.NAVIERA).map(i => <button className='border-black border-[1px] px-5' onClick={()=>setNaviera(i)}>{i}</button>)
+
+
               }
-                {calcValueFCL !== 'NO DATA' &&
-                <div className=" pt-5 " >
-                  <h5 className='font-bold my-2 text-blue-700 '>FLETE</h5>
-                  {Object.entries(calcValueFCL.flete).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
-                  <h5  className='font-bold my-2 text-blue-700'>RECARGOS ORIGEN</h5>
-                  {Object.entries(calcValueFCL['recargos origen']).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
-                  <h5  className='font-bold my-2 text-blue-700'>RECARGOS DESTINO</h5>
-                  {Object.entries(calcValueFCL['recargos destino']).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
-                  <div className='relative  w-full grid grid-cols-2 gap-x-5 mt-5'>
-                    <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={() => setCalcValueFCL('NO DATA')}>Volver a calcular</button>
-                    <button type="submit" className="w-full text-white bg-green-500 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={HandlerCheckOut}>Solicitar Servicio</button>
+
+              {calcValueFCL !== 'NO DATA' &&
+                calcValueFCL.map((item) => {
+
+                  return naviera ===  item.NAVIERA && <div className=" pt-5 " >
+                    <h5 className='font-bold my-2 text-blue-700 '>FLETE</h5>
+                    {item.flete && Object.entries(item.flete).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
+                    <h5 className='font-bold my-2 text-blue-700'>RECARGOS ORIGEN</h5>
+                    {item.flete && Object.entries(item['recargos origen']).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
+                    <h5 className='font-bold my-2 text-blue-700'>RECARGOS DESTINO</h5>
+                    {item.flete && Object.entries(item['recargos destino']).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
+                    <div className='relative  w-full grid grid-cols-2 gap-x-5 mt-5'>
+                      <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={() => setCalcValueFCL('NO DATA')}>Volver a calcular</button>
+                      <button type="submit" className="w-full text-white bg-green-500 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={HandlerCheckOut}>Solicitar Servicio</button>
+                    </div>
                   </div>
-                </div>
+
+                })
               }
+
+              {/* {calcValueFCL !== 'NO DATA' &&
+                calcValueFCL.map(i => {
+
+                  <div className=" pt-5 " >
+                    <h5 className='font-bold my-2 text-blue-700 '>FLETE</h5>
+                    {Object.entries(calcValueFCL.flete).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
+                    <h5 className='font-bold my-2 text-blue-700'>RECARGOS ORIGEN</h5>
+                    {Object.entries(calcValueFCL['recargos origen']).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
+                    <h5 className='font-bold my-2 text-blue-700'>RECARGOS DESTINO</h5>
+                    {Object.entries(calcValueFCL['recargos destino']).map((i, index) => <div className='flex w-full'><span className='w-full font-bold border px-3 py-1'>{i[1].ip}</span><span className='w-full border px-3 py-1'>{i[1].ic}</span></div>)}
+                    <div className='relative  w-full grid grid-cols-2 gap-x-5 mt-5'>
+                      <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={() => setCalcValueFCL('NO DATA')}>Volver a calcular</button>
+                      <button type="submit" className="w-full text-white bg-green-500 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px]  px-5 py-2.5 text-center" onClick={HandlerCheckOut}>Solicitar Servicio</button>
+                    </div>
+                  </div>
+
+                })
+              } */}
             </div>
             <a href="tel:76586948">
               <marquee className="text-white py-5" behavior="" direction="">Llamanos ya clickea aqui      <button className='border px-5 ml-5  rounded-full bg-[#00000070]' >(+591) 76586948</button> </marquee>
