@@ -28,6 +28,7 @@ export default function Home() {
 
 
 
+
     function handlerOnChange(e, key) {
         setData({ ...data, [key]: { ...data[key], [e.target.name]: e.target.value } })
     }
@@ -78,7 +79,7 @@ export default function Home() {
                             userDB && userDB[`tracking`] && Object.entries(userDB[`tracking`]).map((i, index) => {
                                 return <div className='relative p-5 my-5 mt-10 bg-white space-y-5 shadow-2xl border-b-[.5px] border-[#666666] '>
                                     <h5 className='text-center font-medium text-[16px]'>Editar {query}<br /> <span className='text-[#5c5c5c]'> {i[0]}</span></h5>
-                    
+
                                     <h5 className='text-center font-medium text-[16px]'>DETALLE DEL SERVICIO {query}<br /> </h5>
 
                                     < InputFlotante type="text" id="floating_5" onChange={(e) => handlerOnChange(e)} defaultValue={i[1]['FECHA DE CREACION']} required label={'FECHA DE CREACION'} shadow='shadow-white' />
@@ -100,6 +101,14 @@ export default function Home() {
                                     < InputFlotante type="number" id="floating_5" onChange={(e) => handlerOnChange(e)} defaultValue={i[1]['ZARPE']} required label={'ZARPE'} shadow='shadow-white' />
                                     < InputFlotante type="number" id="floating_5" onChange={(e) => handlerOnChange(e)} defaultValue={i[1]['TRANSITO']} required label={'TRANSITO'} shadow='shadow-white' />
                                     < InputFlotante type="number" id="floating_5" onChange={(e) => handlerOnChange(e)} defaultValue={i[1]['ARRIBO A DESTINO']} required label={'ARRIBO A DESTINO'} shadow='shadow-white' />
+
+
+
+
+
+
+
+
 
                                     <div className='w-full grid grid-cols-2 justify-items-center	'>
                                         <Button theme="Danger" click={(e) => { saveFrontPage(e, i[0]) }}>Eliminar</Button>
